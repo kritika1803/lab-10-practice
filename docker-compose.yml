@@ -1,0 +1,44 @@
+services:
+  mysqldb:
+    image: mysql:8
+    platform: linux/amd64
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: users
+      MYSQL_DATABASE: userdbexam
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - springboot-mysql-net
+
+  backend:
+    image: kritika1803/10docker-backend:latest
+    platform: linux/amd64
+    container_name: springboot
+    ports:
+      - "2090:2000"
+    depends_on:
+      - mysqldb
+    restart: on-failure
+    networks:
+      - springboot-mysql-net
+
+  frontend:
+    image: kritika1803/10docker-frontend:latest
+    platform: linux/amd64
+    container_name: react
+    ports:
+      - "3004:80"
+    depends_on:
+      - backend
+    restart: on-failure
+    networks:
+      - springboot-mysql-net
+
+volumes:
+  mysql_data:
+
+networks:
+  springboot-mysql-net:

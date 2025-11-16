@@ -1,10 +1,10 @@
 import axios from "axios";
 
 // Use Vite env var (must start with VITE_)
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:2090/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:2090";
 
 const api = axios.create({
-  baseURL: `${API_BASE_URL}/users`,
+  baseURL: `${API_BASE_URL}/api/users`,
 });
 
 export const register = (user) => api.post("/register", user);
